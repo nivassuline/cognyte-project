@@ -25,7 +25,7 @@ export class DataService {
     }
 
     const response = await axios.get(
-      `https://jsonplaceholder.typicode.com${endpoint}`,
+      `${process.env.API_URL}${endpoint}`,
     );
     const responseData = response.data;
 
@@ -36,16 +36,16 @@ export class DataService {
 
   private fetchAllData() {
     return Promise.all([
-      this.fetchData<User[]>('/users'),
-      this.fetchData<Todo[]>('/todos'),
-      this.fetchData<Comment[]>('/comments'),
-      this.fetchData<Post[]>('/posts'),
+      this.fetchData<User[]>(process.env.USERS_ENDPOINT),
+      this.fetchData<Todo[]>(process.env.TODOS_ENDPOINT),
+      this.fetchData<Comment[]>(process.env.COMMENTS_ENDPOINT),
+      this.fetchData<Post[]>(process.env.POSTS_ENDPOINT),
     ]);
   }
 
   public async getCompanyBySearch(companySearchStr: string): Promise<string[]> {
     const [users, todos] = await Promise.all([
-      this.fetchData<User[]>('/users'),
+      this.fetchData<User[]>(process.env.USERS_ENDPOINT),
       this.fetchData<Todo[]>('/todos'),
     ]);
 

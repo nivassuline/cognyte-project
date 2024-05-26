@@ -15,6 +15,12 @@ describe('DataService', () => {
 
     service = module.get<DataService>(DataService);
     mockAxios = new MockAdapter(axios);
+
+    process.env.API_URL = 'https://jsonplaceholder.typicode.com';
+    process.env.USERS_ENDPOINT = '/users';
+    process.env.TODOS_ENDPOINT = '/todos';
+    process.env.COMMENTS_ENDPOINT = '/comments';
+    process.env.POSTS_ENDPOINT = '/posts';
   });
 
   afterEach(() => {
@@ -64,6 +70,29 @@ describe('DataService', () => {
             bs: 'synergize scalable supply-chains',
           },
         },
+        {
+          id: 3,
+          name: "Clementine Bauch",
+          username: "Samantha",
+          email: "Nathan@yesenia.net",
+          address: {
+            street: "Douglas Extension",
+            suite: "Suite 847",
+            city: "McKenziehaven",
+            zipcode: "59590-4157",
+            geo: {
+              lat: "-68.6102",
+              lng: "-47.0653"
+            }
+          },
+          phone: "1-463-123-4447",
+          website: "ramiro.info",
+          company: {
+            name: "Romaguera-Jacobson",
+            catchPhrase: "Face to face bifurcated interface",
+            bs: "e-enable strategic applications"
+          }
+        },
       ];
 
       const todos: Todo[] = [
@@ -72,6 +101,11 @@ describe('DataService', () => {
         { userId: 1, id: 3, title: 'Todo 3', completed: true },
         { userId: 1, id: 4, title: 'Todo 4', completed: true },
         { userId: 2, id: 5, title: 'Todo 5', completed: true },
+        { userId: 3, id: 6, title: 'Todo 6', completed: true },
+        { userId: 3, id: 7, title: 'Todo 7', completed: true },
+        { userId: 3, id: 8, title: 'Todo 8', completed: true },
+
+
       ];
 
       mockAxios
@@ -87,7 +121,7 @@ describe('DataService', () => {
   });
 
   describe('getUsersByCompanies', () => {
-    it('should return users and todo counts with the valid posts and geo location requirements by specified companies ', async () => {
+    it('should return users and todo counts with the valid posts and geo location requirements by specified companies', async () => {
       const users: User[] = [
         {
           id: 1,
@@ -129,6 +163,29 @@ describe('DataService', () => {
             bs: 'synergize scalable supply-chains',
           },
         },
+        {
+          id: 3,
+          name: "Clementine Bauch",
+          username: "Samantha",
+          email: "Nathan@yesenia.net",
+          address: {
+            street: "Douglas Extension",
+            suite: "Suite 847",
+            city: "McKenziehaven",
+            zipcode: "59590-4157",
+            geo: {
+              lat: "",
+              lng: ""
+            }
+          },
+          phone: "1-463-123-4447",
+          website: "ramiro.info",
+          company: {
+            name: "Romaguera-Jacobson",
+            catchPhrase: "Face to face bifurcated interface",
+            bs: "e-enable strategic applications"
+          }
+        },
       ];
 
       const todos: Todo[] = [
@@ -136,6 +193,9 @@ describe('DataService', () => {
         { userId: 1, id: 2, title: 'Todo 2', completed: true },
         { userId: 1, id: 3, title: 'Todo 3', completed: true },
         { userId: 2, id: 4, title: 'Todo 4', completed: true },
+        { userId: 3, id: 5, title: 'Todo 5', completed: true },
+        { userId: 3, id: 6, title: 'Todo 6', completed: true },
+        { userId: 3, id: 7, title: 'Todo 7', completed: true },
       ];
 
       const comments: Comment[] = [
@@ -167,6 +227,35 @@ describe('DataService', () => {
           email: 'comment4@example.com',
           body: 'Comment body',
         },
+        {
+          postId: 5,
+          id: 5,
+          name: 'Comment 5',
+          email: 'comment4@example.com',
+          body: 'Comment body',
+        },
+        {
+          postId: 5,
+          id: 6,
+          name: 'Comment 6',
+          email: 'comment4@example.com',
+          body: 'Comment body',
+        },
+        {
+          postId: 5,
+          id: 7,
+          name: 'Comment 7',
+          email: 'comment4@example.com',
+          body: 'Comment body',
+        },
+        {
+          postId: 5,
+          id: 8,
+          name: 'Comment 8',
+          email: 'comment4@example.com',
+          body: 'Comment body',
+        },
+
       ];
 
       const posts: Post[] = [
@@ -174,6 +263,10 @@ describe('DataService', () => {
         { userId: 1, id: 2, title: 'Post 2', body: 'Post body' },
         { userId: 1, id: 3, title: 'Post 3', body: 'Post body' },
         { userId: 2, id: 4, title: 'Post 4', body: 'Post body' },
+        { userId: 3, id: 5, title: 'Post 5', body: 'Post body' },
+        { userId: 3, id: 6, title: 'Post 6', body: 'Post body' },
+        { userId: 3, id: 7, title: 'Post 7', body: 'Post body' },
+
       ];
 
       mockAxios
@@ -190,7 +283,7 @@ describe('DataService', () => {
         .reply(200, posts);
 
       const result = await service.getUsersByCompanies(['Romaguera-Crona']);
-      console.log(result);
+      console.log(result[0].users);
       expect(result).toEqual([
         {
           company_name: 'Romaguera-Crona',
